@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計簿アプリ - ユーザー登録画面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            padding: 32px;
+            box-sizing: border-box;
+        }
+        .app-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .app-logo img {
+            width: 80px;
+            height: 80px;
+        }
+        .app-logo h1 {
+            margin: 16px 0 0;
+            color: #6366F1;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .app-logo p {
+            margin: 8px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .error-message {
+            background-color: #FEF2F2;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .error-message i {
+            color: #DC2626;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .error-message p {
+            color: #7F1D1D;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .error-message button {
+            background: none;
+            border: none;
+            color: #7F1D1D;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4B5563;
+        }
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .form-control:focus-within {
+            border-color: #6366F1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        .form-control input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+        }
+        .form-control i {
+            color: #9CA3AF;
+            margin-right: 10px;
+        }
+        .form-control button {
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+        }
+        .validation-message {
+            margin-top: 6px;
+            color: #DC2626;
+            font-size: 14px;
+        }
+        .terms-privacy {
+            margin: 16px 0 24px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        .terms-privacy a {
+            color: #6366F1;
+            text-decoration: none;
+        }
+        .register-button {
+            background-color: #6366F1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .register-button:hover {
+            background-color: #4F46E5;
+        }
+        .register-button .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+        .divider hr {
+            flex-grow: 1;
+            border: none;
+            border-top: 1px solid #E5E7EB;
+        }
+        .divider span {
+            padding: 0 16px;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: white;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .social-button:hover {
+            background-color: #F9FAFB;
+        }
+        .social-button img {
+            width: 20px;
+            height: 20px;
+        }
+        .login-link {
+            margin-top: 32px;
+            text-align: center;
+        }
+        .login-link span {
+            color: #4B5563;
+        }
+        .login-link a {
+            color: #6366F1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- アプリロゴ -->
+        <div class="app-logo">
+            <img src="placeholder-logo.svg" alt="家計簿アプリのロゴ">
+            <h1>家計簿アプリ</h1>
+            <p>あなたの家計をスマートに管理</p>
+        </div>
+        
+        <!-- ページタイトル -->
+        <h2 class="page-title">アカウント登録</h2>
+        
+        <!-- エラーメッセージ (必要に応じて表示) -->
+        <div class="error-message" style="display: none;">
+            <i>⚠️</i>
+            <p>このメールアドレスは既に登録されています</p>
+            <button>✕</button>
+        </div>
+        
+        <!-- 登録フォーム -->
+        <form>
+            <!-- ユーザー名入力 -->
+            <div class="form-group">
+                <div class="form-control">
+                    <i>👤</i>
+                    <input type="text" placeholder="ユーザー名" required>
+                </div>
+                <div class="validation-message" style="display: none;">
+                    ユーザー名を入力してください
+                </div>
+            </div>
+            
+            <!-- メールアドレス入力 -->
+            <div class="form-group">
+                <div class="form-control">
+                    <i>✉️</i>
+                    <input type="email" placeholder="メールアドレス" required>
+                </div>
+                <div class="validation-message" style="display: none;">
+                    有効なメールアドレスを入力してください
+                </div>
+            </div>
+            
+            <!-- パスワード入力 -->
+            <div class="form-group">
+                <div class="form-control">
+                    <i>🔒</i>
+                    <input type="password" placeholder="パスワード（8文字以上）" required>
+                    <button type="button">👁️</button>
+                </div>
+                <div class="validation-message" style="display: none;">
+                    パスワードは8文字以上で入力してください
+                </div>
+            </div>
+            
+            <!-- パスワード確認入力 -->
+            <div class="form-group">
+                <div class="form-control">
+                    <i>🔒</i>
+                    <input type="password" placeholder="パスワード（確認用）" required>
+                </div>
+                <div class="validation-message" style="display: none;">
+                    パスワードが一致しません
+                </div>
+            </div>
+            
+            <!-- 利用規約とプライバシーポリシー -->
+            <div class="terms-privacy">
+                登録すると、<a href="#">利用規約</a>および<a href="#">プライバシーポリシー</a>に同意したことになります。
+            </div>
+            
+            <!-- 登録ボタン -->
+            <button type="submit" class="register-button">
+                <!-- ローディング時は以下のスピナーを表示 -->
+                <!-- <div class="spinner"></div> -->
+                アカウント登録
+            </button>
+        </form>
+        
+        <!-- または -->
+        <div class="divider">
+            <hr>
+            <span>または</span>
+            <hr>
+        </div>
+        
+        <!-- ソーシャルログイン -->
+        <div class="social-login">
+            <button class="social-button">
+                <img src="google-logo.svg" alt="Google">
+                Googleで登録
+            </button>
+            <button class="social-button">
+                <img src="apple-logo.svg" alt="Apple">
+                Appleで登録
+            </button>
+        </div>
+        
+        <!-- ログインリンク -->
+        <div class="login-link">
+            <span>すでにアカウントをお持ちですか？</span>
+            <a href="#">ログイン</a>
+        </div>
+    </div>
+</body>
+</html>

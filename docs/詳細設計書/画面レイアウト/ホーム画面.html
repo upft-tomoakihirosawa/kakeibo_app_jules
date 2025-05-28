@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計簿アプリ - ホーム画面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background-color: #6366F1;
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .header-actions button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .content {
+            padding: 16px;
+        }
+        
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .month-selector h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .month-selector-buttons {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .month-selector-buttons button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #6366F1;
+        }
+        
+        .summary-card {
+            background-color: #6366F1;
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 24px;
+        }
+        
+        .summary-card h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        
+        .balance {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .summary-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+        
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .summary-item-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 4px;
+        }
+        
+        .summary-item-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .income {
+            color: #10B981;
+        }
+        
+        .expense {
+            color: #EF4444;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title a {
+            color: #6366F1;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart {
+            height: 200px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background-color: #6366F1;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+        
+        .chart-bar-label {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .chart-legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .chart-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 8px;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .category-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-icon {
+            background-color: rgba(99, 102, 241, 0.1);
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 24px;
+            color: #6366F1;
+        }
+        
+        .category-name {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .category-amount {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .recent-transactions {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: rgba(99, 102, 241, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+            color: #6366F1;
+        }
+        
+        .transaction-details {
+            flex: 1;
+        }
+        
+        .transaction-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 4px 0;
+        }
+        
+        .transaction-category {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .transaction-amount {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .add-transaction {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #6366F1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.5);
+            cursor: pointer;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 10px;
+        }
+        
+        .bottom-nav-item.active {
+            color: #6366F1;
+        }
+        
+        .bottom-nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        @media (min-width: 768px) {
+            .app {
+                max-width: 768px;
+                display: flex;
+            }
+            
+            .sidebar {
+                width: 240px;
+                background-color: #f8f8f8;
+                padding: 24px 16px;
+                border-right: 1px solid #eaeaea;
+            }
+            
+            .main-content {
+                flex: 1;
+                padding: 24px;
+            }
+            
+            .bottom-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>ホーム</h1>
+            <div class="header-actions">
+                <button>🔍</button>
+                <button>🔔</button>
+                <button>👤</button>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="month-selector">
+                <button>◀</button>
+                <h2>2025年5月</h2>
+                <button>▶</button>
+            </div>
+            
+            <div class="summary-card">
+                <h3>月間サマリー</h3>
+                <div class="balance">¥120,500</div>
+                <div class="summary-details">
+                    <div class="summary-item">
+                        <span class="summary-item-label">収入</span>
+                        <span class="summary-item-value">¥350,000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">支出</span>
+                        <span class="summary-item-value">¥229,500</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">残高</span>
+                        <span class="summary-item-value">¥120,500</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>カテゴリー別支出</span>
+                <a href="#">詳細 ></a>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart">
+                    <div class="chart-bar" style="height: 60%; background-color: #EF4444;">
+                        <span class="chart-bar-label">食費</span>
+                    </div>
+                    <div class="chart-bar" style="height: 40%; background-color: #F97316;">
+                        <span class="chart-bar-label">交通費</span>
+                    </div>
+                    <div class="chart-bar" style="height: 80%; background-color: #6366F1;">
+                        <span class="chart-bar-label">住居費</span>
+                    </div>
+                    <div class="chart-bar" style="height: 30%; background-color: #10B981;">
+                        <span class="chart-bar-label">光熱費</span>
+                    </div>
+                    <div class="chart-bar" style="height: 20%; background-color: #8B5CF6;">
+                        <span class="chart-bar-label">娯楽</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>主なカテゴリー</span>
+                <a href="#">すべて表示 ></a>
+            </div>
+            
+            <div class="categories">
+                <div class="category-item">
+                    <div class="category-icon">🍔</div>
+                    <div class="category-name">食費</div>
+                    <div class="category-amount">¥45,600</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🚇</div>
+                    <div class="category-name">交通費</div>
+                    <div class="category-amount">¥12,800</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏠</div>
+                    <div class="category-name">住居費</div>
+                    <div class="category-amount">¥85,000</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">💡</div>
+                    <div class="category-name">光熱費</div>
+                    <div class="category-amount">¥16,500</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🎮</div>
+                    <div class="category-name">娯楽</div>
+                    <div class="category-amount">¥22,800</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">📱</div>
+                    <div class="category-name">通信費</div>
+                    <div class="category-amount">¥8,500</div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>最近の取引</span>
+                <a href="#">すべて表示 ></a>
+            </div>
+            
+            <div class="recent-transactions">
+                <div class="transaction-item">
+                    <div class="transaction-icon">🍔</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">スーパーマーケット</div>
+                        <div class="transaction-category">食費</div>
+                    </div>
+                    <div class="transaction-amount expense">-¥5,800</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">🚇</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">電車定期券</div>
+                        <div class="transaction-category">交通費</div>
+                    </div>
+                    <div class="transaction-amount expense">-¥10,800</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">💰</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">給料</div>
+                        <div class="transaction-category">収入</div>
+                    </div>
+                    <div class="transaction-amount income">+¥350,000</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">🏠</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">家賃</div>
+                        <div class="transaction-category">住居費</div>
+                    </div>
+                    <div class="transaction-amount expense">-¥85,000</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">🎮</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">映画鑑賞</div>
+                        <div class="transaction-category">娯楽</div>
+                    </div>
+                    <div class="transaction-amount expense">-¥3,600</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-transaction">+</div>
+        
+        <nav class="bottom-nav">
+            <a href="#" class="bottom-nav-item active">
+                <div class="bottom-nav-icon">🏠</div>
+                <span>ホーム</span>
+            </a>
+            <a href="#" class="bottom-nav-item">
+                <div class="bottom-nav-icon">📊</div>
+                <span>レポート</span>
+            </a>
+            <a href="#" class="bottom-nav-item">
+                <div class="bottom-nav-icon">💰</div>
+                <span>取引</span>
+            </a>
+            <a href="#" class="bottom-nav-item">
+                <div class="bottom-nav-icon">⚙️</div>
+                <span>設定</span>
+            </a>
+        </nav>
+    </div>
+</body>
+</html>
